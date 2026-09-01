@@ -21,6 +21,7 @@ ENV TMP_DIR="$APP_DIR/tmp"
 # Update base system
 # hadolint ignore=DL3018,DL3009,DL3008
 RUN apt-get update \
+  && apt-get upgrade -y --no-install-recommends \
   && apt-get install -y --no-install-recommends ca-certificates \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/*

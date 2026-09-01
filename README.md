@@ -119,6 +119,14 @@ after the build. Details in
 This repository arrived containing nothing but a Renovate config. What came
 across from upstream needed the following before it worked.
 
+- **The base packages are now upgraded, not just added to.** The step commented
+  *update base system* only installed `ca-certificates`, so the image shipped
+  whatever the base image tag happened to contain. Distributions patch a
+  package well before they rebuild and republish the base image, so a digest
+  pin — which is what Renovate maintains — pins the *unpatched* set until
+  upstream gets round to a rebuild. It is the same trap on Debian.
+  This is also what makes the nightly cache-free rebuild worth running: without
+  it, that job rebuilt the same packages every night and picked up nothing.
 - **The base image nothing could be built on.** Upstream deleted apt at
   base-build time (`find / -xdev -name '*apt*' | xargs rm -rf`), directly
   contradicting the comment two steps later explaining that the package
